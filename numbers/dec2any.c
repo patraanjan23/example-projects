@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #define MAX 36
 #define SZ 100
 
@@ -7,16 +8,28 @@ char syms[MAX] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 void append(char *, char);
 char *strRev(char *);
 
-int main()
+int main(int argc, char *argv[])
 {
     long pbase = 10;
     long dec, tmp, base, r;
     char any[SZ] = "";
+    
+    if (argc != 2)
+    {
+        printf("usage: ./dec2any <base>\n");
+        return 0;
+    }
+    
+    base = atoi(argv[1]);
+    if (base < 2 || base > 36)
+    {
+        printf("base must be between [2, 36]\n");
+        return 0;
+    }
+
     printf("enter a decimal number: ");
     scanf("%ld", &dec);
-    printf("enter base to convert to (<=36): ");
-    scanf("%ld", &base);
-    
+
     tmp = dec;
     
     while (tmp != 0)
@@ -56,3 +69,27 @@ char *strRev(char *s)
     }
     return s;
 }
+
+/* OUTPUT
+-------------------------------
+▶ ./dec2any.out 2 
+enter a decimal number: 21
+(21)10 = (10101)2
+-------------------------------
+▶ ./dec2any.out 8
+enter a decimal number: 258
+(258)10 = (402)8
+-------------------------------
+▶ ./dec2any.out 16
+enter a decimal number: 287
+(287)10 = (11F)16
+-------------------------------
+▶ ./dec2any.out 25
+enter a decimal number: 5648
+(5648)10 = (90N)25
+-------------------------------
+▶ ./dec2any.out 36
+enter a decimal number: 3666
+(3666)10 = (2TU)36
+-------------------------------
+ */
